@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改公司内容</title>
+</head>
+<body>
+<div>
+    <table cellspacing="5px">
+        <tr>
+            <th>公司账号:</th>
+            <td><span class="id"></span></td>
+        </tr>
+        <tr>
+            <th>密码:</th>
+            <td class="pwd"></td>
+            <td><input type="text" placeholder="请输入新内容" id="pwd"></td>
+            <td><button class="two">提交</button></td>
+        </tr>
+        <tr>
+            <th>公司名称:</th>
+            <td class="name"></td>
+            <td><input type="text" placeholder="请输入新内容" id="name"></td>
+            <td><button class="three">提交</button></td>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="../js/public.js"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script>
+    var id = localStorage.getItem("companyId");
+    $(".two").click(function () {
+        let pwd = $("#pwd").val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.pwd = pwd;
+        $.ajax({
+            url:BASIC_URL+"modifyCompanyPwd",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("修改成功！")
+                }else{
+                    alert("修改失败！")
+                }
+            }
+        })
+    })
+
+    $(".three").click(function () {
+        let name = $("#name").val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.company = name;
+        $.ajax({
+            url:BASIC_URL+"modifyCompanyName",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("修改成功！")
+                }else{
+                    alert("修改失败！")
+                }
+            }
+        })
+    })
+</script>
+</html>

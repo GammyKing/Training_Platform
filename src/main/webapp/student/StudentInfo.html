@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <script src="../js/public.js"></script>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td>学号： </td>
+            <td><span class="id"></span></td>
+        </tr>
+        <tr>
+            <td>姓名： </td>
+            <td class="parent_bro"><span class="stuName"></span> </td>
+            <td class="parent"><button onclick="modify()">修改</button></td>
+        </tr>
+        <tr>
+            <td>实习公司： </td>
+            <td><span class="company"></span></td>
+        </tr>
+        <tr>
+            <td>导师： </td>
+            <td><span class="tutor"></span></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../layer/layer.js"></script>
+<script>
+    function onload(){
+        let id = localStorage.getItem("id");
+        let jsonData={};
+        jsonData.id = id;
+        $.ajax({
+            url:BASIC_URL+"studentInfo",
+            type:"post",
+            contentType:"application/json",
+            dataType:"json",
+            data:JSON.stringify(jsonData),
+            success:function (result) {
+                $(".parent_bro").html($("<span class='stuName'></span>"))
+                $(".parent").html($("<button onclick='modify()'>修改</button>"))
+                $(".id").text(localStorage.getItem("id"));
+                $(".stuName").text(result.stuname);
+                $(".company").text(result.company);
+                $(".tutor").text(result.tutor);
+            }
+        })
+    }
+    $(document).ready(function () {
+       onload();
+    })
+  function modify() {
+      $(".parent_bro").html($("<td><input type='text' placeholder='请输入新值' id='new_value'></td>"));
+      $(".parent").html($("<button id='btn'>提交</button>"));
+      $("#btn").click(function () {
+          let text = $("#new_value").val();
+          console.log(text);
+          let jsonData = {};
+          jsonData.stuname = text;
+          jsonData.id = localStorage.getItem("id");
+          $.ajax({
+              url:BASIC_URL+"stuInsertInfo",
+              type:"post",
+              contentType:"application/json",
+              data:JSON.stringify(jsonData),
+              dataType:"json",
+              success:function (result) {
+                  console.log(result)
+                  if (result){
+                      alert("success!")
+                      onload();
+                  }else{
+                      alert("操作失败。")
+                  }
+              }
+          })
+      })
+  }
+</script>
+</html>

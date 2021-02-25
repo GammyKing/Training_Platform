@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>录入实习公司</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td><select name="" id="company_choise">
+                    <option value="defaut">未选择</option>
+                </select>
+                <button>录入</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/public.js"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script>
+    $(function () {
+        $.ajax({
+            url:BASIC_URL+"selectCompanyInfo",
+            type:"post",
+            contentType:"application/json",
+            success:function (result) {
+                for (let i = 0;i < result.length;i++){
+                    let a = $("<option></option>").text(result[i])
+                    $("#company_choise").append(a);
+                }
+            }
+        })
+
+    })
+    //没有必要在这里去给学生录入。直接让学生自己申请就行了
+    $("button").click(function () {
+        let company = $("select").find("option:selected").text();
+
+    })
+</script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题提交</title>
+</head>
+<body>
+    <div>
+        <textarea name="question" id="tt" cols="30" rows="10" placeholder="请输入问题"></textarea>
+<!--        选择导师-->
+        <button onclick="commit_btn()">提问</button>
+    </div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    function commit_btn() {
+        let question = $("#tt").val();
+        let id = localStorage.getItem("id");
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.question = question;
+        $.ajax({
+            url:BASIC_URL+"askQusetion",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("提交成功！！！");
+                }else {
+                    alert("操作失败！！！");
+                }
+            }
+
+        })
+    }
+</script>
+</html>

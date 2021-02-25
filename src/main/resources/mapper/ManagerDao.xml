@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ManagerDao">
+    <!--    添加实训公司-->
+    <insert id="addCompany">
+        insert into company(id,pwd,company,isdelete) values (#{id},#{pwd},#{company},#{isdelete})
+    </insert>
+<!--    没有导师添加导师-->
+    <insert id="insertTutor" parameterType="com.pojo.Student">
+        insert into student(tutor) values (#{tutor}) where id=#{id}
+    </insert>
+    <!--    修改学生数据 改PWD-->
+    <update id="modifyPwd" parameterType="com.pojo.Student">
+        update student set pwd = #{pwd} where id = #{id}
+    </update>
+<!--    改名称-->
+    <update id="modifyStuName" parameterType="com.pojo.Student">
+        update student set stuname = #{stuname} where id = #{id}
+    </update>
+<!--    改导师-->
+    <update id="modifyTutor" parameterType="com.pojo.Student">
+        update student set tutor=#{tutor} where id=#{id}
+    </update>
+    <!--    删除学生用户-->
+    <update id="deleteStuUser">
+        update student set isdelete=1 where id = #{id}
+    </update>
+    <!--    记录学生选择的公司-->
+    <update id="registerCompany" parameterType="com.pojo.Student">
+        update student set company=#{company} where id=#{id}
+    </update>
+    <!--    修改公司名字-->
+    <update id="modifyCompany" parameterType="com.pojo.Company">
+        update company set company=#{company} where id=#{id}
+    </update>
+    <!--    删除实训公司-->
+    <update id="deleteCompany" parameterType="com.pojo.Company">
+        update company set isdelete=1 where id=#{id}
+    </update>
+    <!--    修改成绩-->
+    <update id="modifyScore" parameterType="com.pojo.Student">
+        update student set score=#{score} where id=#{id}
+    </update>
+<!--    修改公司密码-->
+    <update id="modifyCompanyPwd" parameterType="com.pojo.Company">
+        update company set pwd=#{pwd} where id=#{id}
+    </update>
+
+    <!--查看所有学生数据-->
+    <select id="selectStuUser" resultType="com.pojo.Student">
+        select * from student where isdelete=0
+    </select>
+    <!--    管理员查看公司-->
+    <select id="selectCompany" resultType="com.pojo.Company">
+        select * from company where isdelete=0
+    </select>
+
+    <select id="scoreInfo" resultType="com.pojo.Student">
+        select id,stuname,score,company from student
+    </select>
+
+    <select id="selectUserTutor" parameterType="com.pojo.Student" resultType="com.pojo.Student">
+        select tutor from student where id=#{id}
+    </select>
+
+</mapper>

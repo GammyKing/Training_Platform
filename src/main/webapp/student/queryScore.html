@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>成绩</title>
+    <style>
+        #score{
+            width: 100vw;
+            height: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table id="score" cellpadding="10px" cellspacing="0" >
+        <tr>
+            <th>id</th>
+            <th>论文分数</th>
+            <th>实习成绩</th>
+        </tr>
+        <tr>
+            <td class="space"></td>
+            <td class="space"></td>
+            <td class="space"></td>
+        </tr>
+
+    </table>
+</div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    $(function (){
+        load();
+    })
+    function load(){
+        let url = BASIC_URL+"queryScore";
+        let jsonData={};
+        jsonData.id = localStorage.getItem("id");
+        $.ajax({
+            url:url,
+            type:"POST",
+            contentType:"application/json",
+            dataType:"json",
+            data:JSON.stringify(jsonData),
+            success:function (result) {
+                console.log(result);
+                $(".space").eq(0).text(result.id);
+                $(".space").eq(1).text(result.score);
+                $(".space").eq(2).text(result.companyscore);
+            }
+        })
+
+    }
+</script>
+</html>

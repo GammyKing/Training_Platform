@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论文内容</title>
+</head>
+<body>
+<div>
+    <table id="myTable">
+        <tr>
+            <td><textarea name="text-conent" id="text_content" cols="160" rows="40"></textarea></td>
+        </tr>
+        <tr>
+            <td><input type="text" placeholder="请输入成绩" id="final_score"><button class="btn">提交</button></td>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="../js/public.js"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script>
+    $(function () {
+        let stuid = localStorage.getItem("stuid");
+        let jsonData = {};
+        jsonData.id = stuid;
+        $.ajax({
+            url:BASIC_URL+"showPaper",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                console.log(result);
+                $("#text_content").text(result);
+            }
+        })
+    })
+    $(".btn").click(function () {
+        let score = $("#final_score").val();
+        let id = localStorage.getItem("stuid");
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.score = score;
+        $.ajax({
+            url:BASIC_URL+"checkPaper",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                let index = parent.layer.getFrameIndex(window.name);
+                if (result){
+                    parent.layer.close(index);
+                    //    重新刷新页面
+                    parent.reload();
+                    parent.layer.msg("提交成功！！！")
+                }else{
+                    parent.layer.close(index);
+                    parent.layer.msg("提交失败！！！")
+                }
+
+
+            }
+        })
+
+    })
+</script>
+</html>

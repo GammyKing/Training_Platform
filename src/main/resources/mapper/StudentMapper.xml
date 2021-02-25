@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StudentDao">
+<!--    申请公司-->
+    <update id="applicationCompany" parameterType="com.pojo.Student">
+        update student set company=#{company} where id=#{id} and isdelete=0
+    </update>
+<!--    学生信息完善-->
+    <update id="stuInsertInto" parameterType="com.pojo.Student">
+        update student set stuname = #{stuname} where id=#{id}
+    </update>
+    <update id="commitPageStu" parameterType="com.pojo.PaperText">
+        update student set iscommit=1 where id=#{id}
+    </update>
+    <!--    登录-->
+    <select id="avalidateLogin" parameterType="com.pojo.Person" resultType="com.pojo.Student">
+        select id,pwd from student where id = #{id} and pwd = #{pwd} and isdelete=0
+    </select>
+
+    <select id="avalidateLoginTea" parameterType="com.pojo.Person" resultType="com.pojo.Teacher">
+        select id,pwd from teacher where id = #{id} and pwd = #{pwd} and isdelete=0
+    </select>
+
+    <select id="avalidateLoginCompany" parameterType="com.pojo.Company" resultType="com.pojo.Company">
+        select * from company where id=#{id} and pwd=#{pwd};
+    </select>
+
+    <!--    注册-->
+    <insert id="register" parameterType="com.pojo.Student">
+        insert into student(id,pwd,iscommit,score,companyscore,createtime,isdelete) values(#{id},0,0,0,#{pwd},#{createtime},0)
+    </insert>
+    <!--    判断是否有用户存在-->
+    <select id="selectReg"  parameterType="com.pojo.Student" resultType="com.pojo.Student">
+        select * from student where id=#{id} and isdelete=0;
+    </select>
+
+    <!--    提问-->
+    <insert id="askQusetion" parameterType="com.pojo.Question">
+        insert into question_manage(id,question,tutor,answer,createtime,isdelete) values(#{id},#{question},#{tutor},0,#{createtime},#{isdelete})
+    </insert>
+<!--    论文提交-->
+    <insert id="commitPage" parameterType="com.pojo.PaperText">
+        insert into paper(id,text,tutor,createtime,isdelete) values (#{id},#{papertext},#{tutor},#{createtime},#{isdelete})
+    </insert>
+
+    <!--    学生查询信息-->
+    <select id="studentInfo" parameterType="integer" resultType="com.pojo.Student">
+        select * from student where id = #{value} and isdelete=0
+    </select>
+    <select id="queryScore" parameterType="integer" resultType="com.pojo.Score">
+        select id,score,companyscore from student where id=#{value} and isdelete=0;
+    </select>
+<!--    查询公司数目-->
+    <select id="applicationInfo" resultType="java.lang.String">
+        select company from company;
+    </select>
+<!--    找到学生导师-->
+    <select id="findStuTutor" parameterType="integer" resultType="java.lang.String">
+        select tutor from student where id =#{value}
+    </select>
+
+
+    <!--<insert id="register" parameterType="com.pojo.Student">
+        insert into student(id,pwd,stuname,stuage,stusex,stucollege,stumajor,stugrade,stuclass,createtime,isdelete) values(#{id},#{pwd},#{stuname},#{stuage},#{stusex},#{stumajor},#{stugrade},#{stuclass},#{createtime},#{isdelete})
+    </insert>-->
+</mapper>

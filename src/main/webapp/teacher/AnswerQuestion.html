@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回答问题</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td><textarea name="answer" id="text-one" cols="50" rows="10"></textarea></td>
+                <button>提交</button>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    $("button").click(function () {
+        //学生id
+        let id = localStorage.getItem("stuid");
+        let answer = $("textarea").val();
+        let question = localStorage.getItem("question");
+        console.log(answer)
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.answer = answer;
+        jsonData.question = question;
+        $.ajax({
+            url:BASIC_URL+"answerQuestion",
+            type:"post",
+            data:JSON.stringify(jsonData),
+            contentType:"application/json",
+            dataType:"json",
+            success:function (result) {
+                let index = parent.layer.getFrameIndex(window.name);
+                if (result){
+                    parent.layer.close(index);
+                    //    重新刷新页面
+                    parent.reload();
+                    parent.layer.msg("提交成功！！！")
+                }else{
+                    parent.layer.close(index);
+                    parent.layer.msg("提交失败！！！")
+                }
+            }
+        })
+
+    })
+</script>
+</html>

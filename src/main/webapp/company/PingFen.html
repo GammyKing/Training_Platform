@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评分</title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td><input type="text" placeholder="请输入分数"></td>
+            <td><button class="btn">提交</button></td>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    $(".btn").click(function () {
+        let score = $("input").val();
+        let id = localStorage.getItem("stuid");
+        let jsonData ={};
+        jsonData.id = id;
+        jsonData.companyscore = score;
+        $.ajax({
+            url:BASIC_URL+"Score",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            datatype:"json",
+            success:function (result) {
+                let index = parent.layer.getFrameIndex(window.name);
+                if (result){
+                    parent.layer.close(index);
+                //    重新刷新页面
+                    parent.reload();
+                    parent.layer.msg("提交成功！！！")
+                }else{
+                    parent.layer.close(index);
+                    parent.layer.msg("提交失败！！！")
+                }
+
+            }
+        })
+
+    })
+</script>
+</html>

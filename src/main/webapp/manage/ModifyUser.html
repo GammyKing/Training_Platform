@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改学生信息</title>
+</head>
+<body>
+    <div>
+        <table cellspacing="5px">
+            <tr>
+                <th>学号:</th>
+                <td><span class="id"></span></td>
+            </tr>
+            <tr>
+                <th>密码:</th>
+                <td class="pwd"></td>
+                <td><input type="text" placeholder="请输入新内容" id="pwd"></td>
+                <td><button class="one">提交</button></td>
+            </tr>
+            <tr>
+                <th>姓名:</th>
+                <td class="name"></td>
+                <td><input type="text" placeholder="请输入新内容" id="name"></td>
+                <td><button class="two">提交</button></td>
+            </tr>
+            <tr>
+                <th>导师:</th>
+                <td class="tutor"></td>
+                <td><input type="text" placeholder="请输入新内容" id="tutor"></td>
+                <td><button class="three">提交</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    var id = localStorage.getItem("stuid");
+    $(".one").click(function () {
+        let newPwd = $("#pwd").val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.pwd = newPwd;
+        $.ajax({
+            url:BASIC_URL+"modifyStuUser",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("修改成功！")
+                }else{
+                    alert("修改失败！")
+                }
+            }
+        })
+    })
+
+    $(".two").click(function () {
+        let newName = $("#name").val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.stuname = newName;
+        $.ajax({
+            url:BASIC_URL+"modifyStuUser",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("修改成功！")
+                }else{
+                    alert("修改失败！")
+                }
+            }
+        })
+    })
+
+    $(".three").click(function () {
+        let newTutor = $("#tutor").val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.tutor = newTutor;
+        $.ajax({
+            url:BASIC_URL+"modifyStuUser",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("修改成功！")
+                }else{
+                    alert("修改失败！")
+                }
+            }
+        })
+    })
+</script>
+</html>

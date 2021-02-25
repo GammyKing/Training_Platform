@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>申请公司</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>选择公司</td>
+                <td><select name="choiseCompany" id="choice-company">
+                    <option value="">未选择</option>
+                </select></td>
+                <td><button class="btn">申请</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url:BASIC_URL+"applicationInfo",
+            type:"post",
+            dataType:"json",
+            success:function(result){
+                for (let i = 0;i < result.length;i++){
+                    console.log(result[i])
+                    let a = $("<option></option>").text(result[i])
+                    $("#choice-company").append(a);
+                }
+            }
+        })
+    })
+
+    $(".btn").click(function () {
+        let company = $("select").find("option:selected").text();
+        let id = localStorage.getItem("id");
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.company = company
+        $.ajax({
+            url: BASIC_URL+"applicationCompany",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            success:function (result) {
+                if (result){
+                    alert("申请成功！");
+                }else {
+                    alert("申请失败，请重新申请！")
+                }
+            }
+        })
+    })
+
+</script>
+</html>

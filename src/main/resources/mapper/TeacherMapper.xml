@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.TeacherDao">
+<!--    教师注册-->
+    <insert id="createTeacher" parameterType="com.pojo.Teacher">
+        insert into teacher(id,pwd) values(#{id},#{pwd})
+    </insert>
+<!--    教师评分-->
+    <update id="checkPaper" parameterType="com.pojo.Student">
+        update student set score = #{score} where id=#{id}
+    </update>
+<!--    教师回答自己学生的问题-->
+    <update id="answerQuestion" parameterType="com.pojo.Answer">
+        update question_manage set answer=#{answer} where id=#{id} and question=#{question}
+    </update>
+    <!--    显示学生的提问-->
+    <select id="showStuQuestion" parameterType="string" resultType="com.pojo.Answer">
+       select id,question,answer from question_manage where tutor=#{value}
+    </select>
+<!--    查找教师名称-->
+    <select id="findTutor" parameterType="integer" resultType="java.lang.String">
+        select tname from teacher where id=#{value} and isdelete = 0;
+    </select>
+<!--    找到所有对象的学生论文-->
+    <select id="Papers" parameterType="string" resultType="com.pojo.PaperText">
+        select * from paper where tutor=#{value}
+    </select>
+<!--    显示论文内容-->
+    <select id="showPaper" parameterType="integer" resultType="java.lang.String">
+        select text from paper where id = #{value}
+    </select>
+</mapper>

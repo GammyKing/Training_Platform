@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加公司</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>公司账号</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>公司名称</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button class="btn">添加</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/public.js"></script>
+<script>
+    $(".btn").click(function () {
+        let id = $("input").eq(0).val();
+        let pwd = $("input").eq(1).val();
+        let company = $("input").eq(2).val();
+        let jsonData = {};
+        jsonData.id = id;
+        jsonData.pwd = pwd;
+        jsonData.company = company;
+        $.ajax({
+            url:BASIC_URL+"addCompany",
+            type:"post",
+            data:JSON.stringify(jsonData),
+            dataType:"json",
+            contentType:"application/json",
+            success:function (result) {
+                let index = parent.layer.getFrameIndex(window.name);
+                if (result){
+                    parent.layer.close(index);
+                    parent.reload();
+                    parent.layer.msg("添加成功！")
+                }else{
+                    parent.layer.close(index);
+                    parent.layer.msg("添加失败！");
+                }
+
+            }
+        })
+    })
+</script>
+</html>
